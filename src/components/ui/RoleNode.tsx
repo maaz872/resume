@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, MotionValue, useTransform } from "framer-motion";
-import { Briefcase, MousePointerClick } from "lucide-react";
+import { Briefcase } from "lucide-react";
 import type { ExperienceItem } from "@/data/cv";
 
 type Props = {
@@ -9,11 +9,9 @@ type Props = {
   index: number;
   total: number;
   scrollYProgress: MotionValue<number>;
-  onClick: () => void;
 };
 
-export function RoleNode({ job, index, total, scrollYProgress, onClick }: Props) {
-  // Each role gets its own slice of progress
+export function RoleNode({ job, index, total, scrollYProgress }: Props) {
   const slice = 1 / total;
   const start = index * slice;
   const peak = start + slice / 2;
@@ -26,18 +24,15 @@ export function RoleNode({ job, index, total, scrollYProgress, onClick }: Props)
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
 
   return (
-    <motion.button
-      type="button"
-      onClick={onClick}
+    <motion.div
       style={{ opacity, scale, y, filter }}
-      className="absolute inset-0 m-auto h-fit w-full max-w-xl mx-auto block group cursor-pointer text-left"
-      aria-label={`Open details for ${job.company}, ${job.role}, ${job.period}`}
+      className="absolute inset-0 m-auto h-fit w-full max-w-xl mx-auto px-5"
     >
-      <div className="relative rounded-3xl border border-border bg-card/90 backdrop-blur-xl p-6 sm:p-8 shadow-2xl shadow-black/40 group-hover:border-accent group-focus-visible:border-accent transition-colors duration-300">
+      <div className="relative rounded-3xl border border-border bg-card/90 backdrop-blur-xl p-6 sm:p-8 shadow-2xl shadow-black/40">
         {/* Glow halo */}
         <div
           aria-hidden
-          className="absolute -inset-4 -z-10 rounded-[2rem] opacity-60 group-hover:opacity-100 transition-opacity duration-500"
+          className="absolute -inset-4 -z-10 rounded-[2rem] opacity-60"
           style={{
             background:
               "radial-gradient(circle at 50% 50%, rgba(59,130,246,0.25), rgba(139,92,246,0.15) 50%, transparent 75%)",
@@ -60,17 +55,18 @@ export function RoleNode({ job, index, total, scrollYProgress, onClick }: Props)
         </h3>
         <p className="mt-1.5 text-sm sm:text-base text-accent font-semibold">{job.role}</p>
 
-        <ul className="mt-4 space-y-1.5 text-sm text-muted leading-relaxed">
-          {job.bullets.slice(0, 2).map((b, i) => (
-            <li key={i}>{b}</li>
+        <ul className="mt-4 space-y-2 text-sm text-muted leading-relaxed">
+          {job.bullets.map((b, i) => (
+            <li key={i} className="flex gap-2.5">
+              <span
+                aria-hidden
+                className="mt-1.5 inline-block h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent"
+              />
+              <span>{b}</span>
+            </li>
           ))}
         </ul>
-
-        <div className="mt-5 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted group-hover:text-accent transition-colors">
-          <MousePointerClick size={12} aria-hidden />
-          Click for full details
-        </div>
       </div>
-    </motion.button>
+    </motion.div>
   );
 }

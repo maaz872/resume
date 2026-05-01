@@ -88,7 +88,7 @@ export const experience: ExperienceItem[] = [
   },
   {
     company: "Binate Digital",
-    role: "Project Manager",
+    role: "Account Manager",
     period: "2022",
     bullets: [
       "Managed project delivery lifecycle",

@@ -3,9 +3,7 @@
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { experience } from "@/data/cv";
-import type { ExperienceItem } from "@/data/cv";
 import { RoleNode } from "@/components/ui/RoleNode";
-import { FocusModal } from "@/components/ui/FocusModal";
 
 export function CareerSpace() {
   const outerRef = useRef<HTMLElement>(null);
@@ -14,7 +12,6 @@ export function CareerSpace() {
     offset: ["start start", "end end"],
   });
 
-  const [focused, setFocused] = useState<ExperienceItem | null>(null);
   const [vhPerRole, setVhPerRole] = useState(100);
 
   useEffect(() => {
@@ -34,13 +31,12 @@ export function CareerSpace() {
   );
 
   return (
-    <>
-      <section
-        ref={outerRef}
-        aria-labelledby="career-heading"
-        className="relative w-full"
-        style={{ height: `${total * vhPerRole}vh` }}
-      >
+    <section
+      ref={outerRef}
+      aria-labelledby="career-heading"
+      className="relative w-full"
+      style={{ height: `${total * vhPerRole}vh` }}
+    >
         <div className="sticky top-0 h-screen w-full overflow-hidden bg-background/40 backdrop-blur-[2px]">
           {/* Section label */}
           <div className="pointer-events-none absolute top-8 sm:top-12 left-0 right-0 z-10 text-center px-5">
@@ -99,7 +95,6 @@ export function CareerSpace() {
                 index={i}
                 total={total}
                 scrollYProgress={scrollYProgress}
-                onClick={() => setFocused(job)}
               />
             ))}
           </div>
@@ -116,9 +111,7 @@ export function CareerSpace() {
             <span className="hidden sm:inline">Continue</span>
           </div>
         </div>
-      </section>
-      <FocusModal job={focused} onClose={() => setFocused(null)} />
-    </>
+    </section>
   );
 }
 
